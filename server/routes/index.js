@@ -4,10 +4,8 @@
  *
  */
 
-import api_v1 from './api_v1';
-import page from './page';
+import api from './api';
 
 export default {
-  api_v1,
-  page
+  api
 };

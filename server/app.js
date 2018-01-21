@@ -5,7 +5,7 @@ import favicon from 'serve-favicon';
 import helmet from 'helmet';
 import compression from 'compression';
 import path from 'path';
-
+import mongoose from 'mongoose';
 import env from './config/env';
 import routes from './routes';
 
@@ -21,11 +21,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // serve static files, this is for frontend React
 app.use('/static', express.static(path.join(__dirname, 'public', 'static')));
 
+//connect to mongoose
+mongoose.Promise = global.Promise;
 
+// MongoDB Connection
+mongoose.connect('mongodb://localhost:27017/myApp', (error) => {
+  if (error) {
+    console.error('Please make sure Mongodb is installed and running!');
+    throw error;
+  }
+});
 
 // Routes
 app.use('/api/', routes.api);
-app.use('/page', routes.page);
 
 // Load React App
 // Serve HTML file for production
