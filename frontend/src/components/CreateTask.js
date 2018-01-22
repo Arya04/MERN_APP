@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 
 class CreateTask extends Component {
   constructor(props){
@@ -15,8 +16,31 @@ class CreateTask extends Component {
         return <div style={{ color: 'red' }}>{this.state.error}</div>;
   }
 
-  handleCreate(){
-    
+  handleCreate(event){
+    event.preventDefault();
+    const createInput = this.refs.createInput;
+    const task = createInput.value;
+    const validateInput = this.validateInput(task);
+
+    if(validateInput){
+      this.setState({error: validateInput});
+      return;
+    }
+    this.setState({error:null});
+    this.props.createTask(task);
+    this.refs.createInput.value = '';
+
+  }
+  validateInput(task){
+    if(!task){
+      return 'Please enter a task';
+    }
+    else if (_.find(this.props.todos, todo => todo.description === task)){
+      return 'Task already exists';
+    }
+    else{
+      return null;
+    }
   }
   render() {
     return (
