@@ -9,9 +9,7 @@ import Task from '../models/Task';
 
 const router = Router();
 
-router.get('/', function(req, res) {
-    res.json({message: "yea!"});
-})
+
 
 function guid() {
   function s4() {
@@ -50,8 +48,8 @@ function getOneTask(req, res){
 
 function saveTask(req, res){
   var newTask = new Task(req.body.task);
-  newTask.title = req.body.title;
   newTask.description = req.body.description;
+  newTask.isDone = req.body.isDone;
   newTask.cuid = guid();
 
   newTask.save((err, saved) => {
